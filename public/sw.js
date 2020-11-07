@@ -13,6 +13,7 @@ this.addEventListener('install', e=>{
     )
 })
 this.addEventListener('fetch', e=>{
+    console.log(e.request.url)
         if(e.request.url === 'http://localhost:3000/static/js/main.chunk.js'){
         this.registration.showNotification('hello', {
             body: 'Hello from app'

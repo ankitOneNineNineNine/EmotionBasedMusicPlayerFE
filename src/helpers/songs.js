@@ -36,12 +36,6 @@ const songs = [{
     src: 'http://localhost:8000/music/Green Day - Basket Case [Official Music Video].mp3',
     img: 'http://localhost:8000/images/Basket Case.jpg'
 }, {
-    title: 'Drops In the Ocean',
-    artist: 'Hawk Nelson',
-    emotion: 'Fear',
-    src: 'http://localhost:8000/music/Hawk Nelson - Drops In the Ocean (Lyric Video).mp3',
-    img: 'http://localhost:8000/images/Drops In the Ocean.jpg'
-}, {
     title: 'Jaula Relaima',
     artist: 'Kamal Khatri,Simple Kharel',
     emotion: 'Neutral',
@@ -60,30 +54,12 @@ const songs = [{
     src: 'http://localhost:8000/music/JEWEL - Absence of fear (with Lyrics).mp3',
     img: 'http://localhost:8000/images/Absence of fear.jpg'
 }, {
-    title: 'Jumme Ki Raat',
-    artist: 'Mika Singh,Palak Muchhal',
-    emotion: 'Happy',
-    src: 'http://localhost:8000/music/Jumme Ki Raat Full Video Song Salman Khan, Jacqueline Fernandez Mika Singh Himesh Reshammi.mp3',
-    img: 'http://localhost:8000/images/Jumme Ki Raat.jpg'
-}, {
     title: 'Lai Lai',
     artist: 'Ketan Chettri',
     emotion: 'Sad',
     src: 'http://localhost:8000/music/Lai Lai -Prasad Nepali Movie Lyrical Song Video Bipin Karki, Nischal Basnet, Namrata Shrest.mp3',
     img: 'http://localhost:8000/images/Lai Lai.jpg'
-}, {
-    title: 'Nothing Else Matters',
-    artist: 'Metallica',
-    emotion: 'Neutral',
-    src: 'http://localhost:8000/music/Metallica Nothing Else Matters (Official Music Video).mp3',
-    img: 'http://localhost:8000/images/Nothing Else Matters.jpg'
-}, {
-    title: 'Nacha Firiri',
-    artist: 'Mahesh Kafle,Melina Rai',
-    emotion: 'Happy',
-    src: 'http://localhost:8000/music/NACHA FIRIRI Mahesh Kafle Ft. Melina Rai Nischal Basnet Swastima Khadka Kristal Klaw.mp3',
-    img: 'http://localhost:8000/images/Nacha Firiri.gif'
-}, {
+},{
     title: 'Smells Like Teen Spirit',
     artist: 'Nirvana',
     emotion: 'Happy',

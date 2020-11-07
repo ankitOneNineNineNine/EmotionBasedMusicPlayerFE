@@ -123,7 +123,12 @@ export default function Player({ allSongs, playlistFromEmotion, findEmotion }) {
       setListSelectToggle(false);
     }
   };
-
+  let arr = [];
+  allSongs.forEach((song) => {
+    if (arr.indexOf(song.emotion) < 0) {
+      arr.push(song.emotion);
+    }
+  });
   return (
     <div className="bg">
       <>
@@ -175,6 +180,7 @@ export default function Player({ allSongs, playlistFromEmotion, findEmotion }) {
           <ListSelect
             shown="true"
             listSelected={listSelected}
+            lists={arr}
             nowPlaying={currentSong ? currentSong.emotion : playlistDisplay}
           />
         ) : null}

@@ -1,38 +1,25 @@
 import React from "react";
 
-export default function ListSelect({ shown, listSelected, nowPlaying }) {
+export default function ListSelect({ shown, lists, listSelected, nowPlaying }) {
   let stylex = shown
     ? { zIndex: "1", display: "block" }
     : { zIndex: "-1", display: "none" };
+  let content = lists
+    ? lists.map((list, i) => {
+        return (
+          <h2
+            key={i}
+            onClick={() => listSelected(list)}
+            style={nowPlaying === list ? { background: "green" } : {}}
+          >
+            {list} Songs
+          </h2>
+        );
+      })
+    : null;
   return (
     <div id="list-select" style={stylex}>
-      <h2
-        onClick={() => listSelected("Happy")}
-        style={nowPlaying === "Happy" ? { background: "green" } : {}}
-      >
-        Happy Songs
-      </h2>
-
-      <h2
-        onClick={() => listSelected("Sad")}
-        style={nowPlaying === "Sad" ? { background: "green" } : {}}
-      >
-        Sad Songs
-      </h2>
-
-      <h2
-        onClick={() => listSelected("Surprise")}
-        style={nowPlaying === "Surprise" ? { background: "green" } : {}}
-      >
-        Surprise Songs
-      </h2>
-
-      <h2
-        onClick={() => listSelected("Angry")}
-        style={nowPlaying === "Angry" ? { background: "green" } : {}}
-      >
-        Angry Songs
-      </h2>
+      {content}
     </div>
   );
 }
