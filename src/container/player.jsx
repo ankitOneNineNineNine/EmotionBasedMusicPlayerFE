@@ -54,7 +54,8 @@ export default function Player({ allSongs, playlistFromEmotion, findEmotion }) {
           setPlaylist(songFilter);
         }
       }
-      if (playlistFromEmotion) {
+      if (playlistFromEmotion !== playlistDisplay) {
+        console.log(playlistFromEmotion);
         let songFilter = allSongs.filter(
           (songs) => songs.emotion === playlistFromEmotion
         );
