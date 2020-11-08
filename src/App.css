@@ -11,7 +11,7 @@ img {
 
 .player {
   width: 400px;
-  height: 98vh;
+  height: fit-content;
   top: 50vh;
   /* height: 680px; */
   position: absolute;
