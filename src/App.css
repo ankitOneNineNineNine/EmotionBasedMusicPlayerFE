@@ -11,9 +11,11 @@ img {
 
 .player {
   width: 400px;
-  height: 680px;
+  height: 90vh;
+  top: 50vh;
+  /* height: 680px; */
   position: absolute;
-  top: 45%;
+  /* top: 45%; */
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.1);
@@ -362,10 +364,13 @@ span {
   animation: 2s slide-right 2s forwards;
   transform: translateX(-100%);
 }
+#toggleThem {
+  height: 380px;
+}
 #toggleThemWithThis {
   border-bottom: 1px solid white;
-
-  height: 410.5px;
+  height: 380px;
+  /* height: 410.5px; */
   overflow-y: scroll;
   scrollbar-width: none;
 }
