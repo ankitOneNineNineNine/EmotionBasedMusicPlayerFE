@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import ImageDisplay from "../views/imageDisplay";
 import axios from "axios";
 import { dispError, dispSuccess } from "../helpers/toaster";
+import * as tf from "@tensorflow/tfjs";
+
 const EmotionCam = ({ setEmPl, findEmotion }) => {
   const fileRef = useRef(null);
+
   const videoRef = useRef(null);
   const [imageSelect, setImageSelect] = useState(false);
   const [file, setFile] = useState(null);
@@ -21,6 +24,7 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
   const setcanvUri = (uri) => {
     setCamImgUri(uri);
   };
+
   const send = (e) => {
     e.preventDefault();
     if (cam) {
@@ -31,12 +35,55 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
           uri: camImgUri,
         },
       })
-        .then((data) => {
-          console.log("Emotion", data.data);
+        .then(async (data) => {
+          let obj = data.data;
+          var model = await tf.loadLayersModel(
+            "http://localhost:8000/models/model.json"
+          );
+          var canvImg = new Image();
+          canvImg.src = camImgUri;
+          const cnvs = document.createElement("canvas");
+          cnvs.width = 48;
+          cnvs.height = 48;
+          const ctx = cnvs.getContext("2d");
+          canvImg.onload = async () => {
+            ctx.drawImage(
+              canvImg,
+              obj.x,
+              obj.y,
+              obj.width,
+              obj.height,
+              0,
+              0,
+              cnvs.width,
+              cnvs.height
+            );
+            const tensor = tf.browser
+              .fromPixels(cnvs, 1)
+              .div(255)
+              .toFloat()
+              .expandDims(0);
+
+            const prediction = await model.predict(tensor).data();
+            var emotions = [
+              "Angry",
+              "Disgust",
+              "Fear",
+              "Happy",
+              "Sad",
+              "Surprise",
+              "Neutral",
+            ];
+            var index = Object.values(prediction).findIndex(
+              (p) => p === Math.max(...Object.values(prediction))
+            );
+            setEmotion(emotions[index]);
+            setEmPl(emotions[index]);
+            dispSuccess(emotions[index]);
+          };
         })
         .catch((err) => {
           dispError(err);
-          console.log();
         });
     } else {
       var formData = new FormData();
@@ -49,10 +96,52 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
         },
         data: formData,
       })
-        .then((data) => {
-          setEmotion(data.data);
-          setEmPl(data.data);
-          dispSuccess(data.data);
+        .then(async (data) => {
+          let obj = data.data;
+          var model = await tf.loadLayersModel(
+            "http://localhost:8000/models/model.json"
+          );
+          var canvImg = new Image();
+          canvImg.src = url;
+          const cnvs = document.createElement("canvas");
+          cnvs.width = 48;
+          cnvs.height = 48;
+          const ctx = cnvs.getContext("2d");
+          canvImg.onload = async () => {
+            ctx.drawImage(
+              canvImg,
+              obj.x,
+              obj.y,
+              obj.width,
+              obj.height,
+              0,
+              0,
+              cnvs.width,
+              cnvs.height
+            );
+            const tensor = tf.browser
+              .fromPixels(cnvs, 1)
+              .div(255)
+              .toFloat()
+              .expandDims(0);
+
+            const prediction = await model.predict(tensor).data();
+            var emotions = [
+              "Angry",
+              "Disgust",
+              "Fear",
+              "Happy",
+              "Sad",
+              "Surprise",
+              "Neutral",
+            ];
+            var index = Object.values(prediction).findIndex(
+              (p) => p === Math.max(...Object.values(prediction))
+            );
+            setEmotion(emotions[index]);
+            setEmPl(emotions[index]);
+            dispSuccess(emotions[index]);
+          };
         })
         .catch((err) => {
           dispError(err);

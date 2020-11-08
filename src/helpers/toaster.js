@@ -10,7 +10,8 @@ const options = {
     progress: undefined,
   }
 export const dispError = (err)=>{
-    toast.error(err.response.data.msg, options);
+    if(err && err.response && err.response.data && err.response.data.msg)
+        toast.error(err.response.data.msg, options);
 }
 export const dispSuccess = (msg)=>{
     toast.success(msg, options)
