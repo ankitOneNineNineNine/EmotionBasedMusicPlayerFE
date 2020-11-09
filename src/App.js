@@ -6,6 +6,7 @@ import EmotionCam from "./container/emotionCam";
 import Form from "./container/form";
 import Modal from "./portals/modal";
 import { ToastContainer } from "react-toastify";
+import 'tachyons'
 import "react-toastify/dist/ReactToastify.css";
 
 export const FormContext = React.createContext();
@@ -34,7 +35,7 @@ function App() {
       ) : null}
       {formDisplay ? (
         <Modal>
-          <Form />
+          <Form dispForm = {dispForm}/>
         </Modal>
       ) : null}
       <FormContext.Provider value={dispForm}>

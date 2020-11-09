@@ -345,6 +345,9 @@ span {
   white-space: nowrap;
   cursor: pointer;
 }
+#artist {
+  margin-top: -25px;
+}
 .slide-right {
   width: 100%;
   overflow: hidden;

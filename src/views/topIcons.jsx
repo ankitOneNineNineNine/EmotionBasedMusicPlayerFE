@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 import { FormContext } from "../App";
-export default function TopIcons({ topIconHandler, color }) {
+import { connect } from "react-redux";
+import { setUser } from "../reduxComponents/action";
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+function TopIcons({ topIconHandler, color, user }) {
   const formCtx = useContext(FormContext);
   return (
     <div className="top-icons">
@@ -11,9 +18,13 @@ export default function TopIcons({ topIconHandler, color }) {
           style={{ color: color }}
         ></i>
       </a>
-      <button className="loginBtn" onClick={() => formCtx(true)}>
-        Login
-      </button>
+      {user ? (
+        <button className="loginBtn">{user.userName}</button>
+      ) : (
+        <button className="loginBtn" onClick={() => formCtx(true)}>
+          Login
+        </button>
+      )}
       <a href="#">
         <i
           onClick={() => topIconHandler("emotionFinder")}
@@ -23,3 +34,4 @@ export default function TopIcons({ topIconHandler, color }) {
     </div>
   );
 }
+export default connect(mapStateToProps)(TopIcons);
