@@ -6,14 +6,44 @@ import EmotionCam from "./container/emotionCam";
 import Form from "./container/form";
 import Modal from "./portals/modal";
 import { ToastContainer } from "react-toastify";
-import 'tachyons'
+import "tachyons";
 import "react-toastify/dist/ReactToastify.css";
-
+import Profile from "./container/profile";
+import axios from "axios";
+import { setUser } from "./reduxComponents/action";
+import { dispError } from "./helpers/toaster";
+import { connect } from "react-redux";
 export const FormContext = React.createContext();
-function App() {
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user)),
+  };
+};
+
+function App({ setUser }) {
   const [playlistFromEmotion, setPlaylistFromEmotion] = useState(null);
   const [emotionFinder, setEmotionFinder] = useState(false);
   const [formDisplay, setFormDisplay] = useState(false);
+  const [profileDisp, setProfileDisp] = useState(false);
+  useEffect(() => {
+    axios({
+      url: "http://localhost:8000/user/loginWithJWT",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: JSON.parse(localStorage.getItem("$token$")),
+      },
+      data: {},
+    })
+      .then((data) => {
+        console.log(data.data);
+        setUser(data.data);
+      })
+      .catch((err) => {
+        localStorage.clear();
+      });
+  }, []);
   const dispForm = (val) => {
     setFormDisplay(val);
   };
@@ -22,6 +52,9 @@ function App() {
     setEmotionFinder(false);
   };
 
+  const dispProfile = (val) => {
+    setProfileDisp(val);
+  };
   const findEmotion = (val) => {
     setEmotionFinder(val);
   };
@@ -35,7 +68,12 @@ function App() {
       ) : null}
       {formDisplay ? (
         <Modal>
-          <Form dispForm = {dispForm}/>
+          <Form dispForm={dispForm} />
+        </Modal>
+      ) : null}
+      {profileDisp ? (
+        <Modal>
+          <Profile dispProfile={dispProfile} />
         </Modal>
       ) : null}
       <FormContext.Provider value={dispForm}>
@@ -43,6 +81,7 @@ function App() {
           allSongs={songs}
           findEmotion={findEmotion}
           playlistFromEmotion={playlistFromEmotion}
+          dispProfile={dispProfile}
         />
       </FormContext.Provider>
       <ToastContainer />
@@ -50,4 +89,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null, mapDispatchToProps)(App);

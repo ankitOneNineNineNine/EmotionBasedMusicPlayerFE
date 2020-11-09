@@ -7,8 +7,9 @@ const mapStateToProps = (state) => {
     user: state.user,
   };
 };
-function TopIcons({ topIconHandler, color, user }) {
+function TopIcons({ topIconHandler, color, user, dispProfile }) {
   const formCtx = useContext(FormContext);
+
   return (
     <div className="top-icons">
       <a href="#">
@@ -18,8 +19,10 @@ function TopIcons({ topIconHandler, color, user }) {
           style={{ color: color }}
         ></i>
       </a>
-      {user ? (
-        <button className="loginBtn">{user.userName}</button>
+      {user.userName ? (
+        <button className="loginBtn" onClick={() => dispProfile(true)}>
+          {user.userName}
+        </button>
       ) : (
         <button className="loginBtn" onClick={() => formCtx(true)}>
           Login

@@ -14,7 +14,12 @@ const SongDesc = lazy(() => import("../views/songDesc"));
 const SongLists = lazy(() => import("../views/songLists"));
 const TopIcons = lazy(() => import("../views/topIcons"));
 
-export default function Player({ allSongs, playlistFromEmotion, findEmotion }) {
+export default function Player({
+  allSongs,
+  playlistFromEmotion,
+  findEmotion,
+  dispProfile,
+}) {
   const [playlistToggle, setplaylistToggle] = useState(false);
   const [listSelectToggle, setListSelectToggle] = useState(false);
   const [playlistDisplay, setPlaylistDisplay] = useState("Happy");
@@ -139,6 +144,7 @@ export default function Player({ allSongs, playlistFromEmotion, findEmotion }) {
           <Suspense fallback={<div>Loading...</div>}>
             <TopIcons
               topIconHandler={topIconHandler}
+              dispProfile={dispProfile}
               color={wishlisted ? "red" : "black"}
             />
 

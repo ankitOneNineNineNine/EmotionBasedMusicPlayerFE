@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 export default function ImageDisplay({ cam, url, goBack, send, setcanvUri }) {
   const canvRef = useRef(null);
   useEffect(() => {
-    console.log(cam);
     if (cam) {
       const ctx = canvRef.current.getContext("2d");
       ctx.drawImage(url, 0, 0, canvRef.current.width, canvRef.current.height);

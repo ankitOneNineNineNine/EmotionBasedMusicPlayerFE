@@ -14,6 +14,7 @@ class Form extends React.Component {
     super();
     this.state = {
       register: false,
+      forgotP: false,
       takenEmail: [],
       takenUserName: [],
       formErr: {
@@ -121,36 +122,67 @@ class Form extends React.Component {
   };
   submit = (e) => {
     e.preventDefault();
-    let err = Object.values(this.state.formErr);
-    let submit = err.every((err) => err.length === 0);
-    if (!this.state.register) {
-      submit = true;
-    }
-    let url;
-    if (this.state.register) {
-      url = `http://localhost:8000/auth/register`;
-    } else {
-      url = `http://localhost:8000/auth/login`;
-    }
-    if (submit) {
-      axios({
-        url: url,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: this.state.formDet,
-      })
-        .then((data) => {
-          localStorage.setItem("$token$", JSON.stringify(data.data.token));
 
-          this.props.setUser(data.data.user);
-          dispSuccess(`Hello ${data.data.user.userName}`);
-          this.props.dispForm(false);
+    if (this.state.forgotP) {
+      let data = {
+        email: this.state.formDet.email,
+      };
+      if (this.state.takenEmail.indexOf(data.email) > -1) {
+        axios({
+          url: `http://localhost:8000/auth/forgot-password`,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: data,
         })
-        .catch((err) => {
-          dispError(err);
+          .then((_) => {
+            dispSuccess(`We have sent you a message at ${data.email}`);
+          })
+          .catch((err) => {
+            dispError(err);
+          });
+      } else {
+        dispError({
+          response: {
+            data: {
+              msg: "Email not found!",
+            },
+          },
         });
+      }
+    } else {
+      let err = Object.values(this.state.formErr);
+      let submit = err.every((err) => err.length === 0);
+      if (!this.state.register && !this.state.forgotP) {
+        submit = true;
+      }
+      let url;
+      if (this.state.register && !this.state.forgotP) {
+        url = `http://localhost:8000/auth/register`;
+      } else {
+        url = `http://localhost:8000/auth/login`;
+      }
+      if (submit) {
+        axios({
+          url: url,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: this.state.formDet,
+        })
+          .then((data) => {
+            localStorage.setItem("$token$", JSON.stringify(data.data.token));
+
+            this.props.setUser(data.data.user);
+            dispSuccess(`Hello ${data.data.user.userName}`);
+            this.props.dispForm(false);
+          })
+          .catch((err) => {
+            dispError(err);
+          });
+      }
     }
   };
   render() {
@@ -161,10 +193,65 @@ class Form extends React.Component {
           <form className="measure center">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f4 fw6 ph0 mh0">
-                {this.state.register ? "Sign Up" : "Sign In"}
+                {!this.state.forgotP
+                  ? this.state.register
+                    ? "Sign Up"
+                    : "Sign In"
+                  : "Forgot-Password"}
               </legend>
               <div className="mt3">
-                {this.state.register ? (
+                {!this.state.forgotP ? (
+                  this.state.register ? (
+                    <>
+                      <label
+                        className="db fw6 lh-copy f6"
+                        htmlFor="email-address"
+                      >
+                        Email
+                      </label>
+                      <input
+                        onChange={this.formChange}
+                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                        type="email"
+                        name="email"
+                        id="email-address"
+                        value={this.state.formDet.email}
+                      />
+                      <p style={{ color: "red" }}>{this.state.formErr.email}</p>
+                      <label className="db fw6 lh-copy f6" htmlFor="userName">
+                        Username
+                      </label>
+                      <input
+                        onChange={this.formChange}
+                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                        type="text"
+                        name="userName"
+                        value={this.state.formDet.userName}
+                        id="userName"
+                      />
+                      <p style={{ color: "red" }}>
+                        {this.state.formErr.userName}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <label
+                        className="db fw6 lh-copy f6"
+                        htmlFor="email-address"
+                      >
+                        Email or Username
+                      </label>
+                      <input
+                        onChange={this.formChange}
+                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                        type="text"
+                        name="userName"
+                        value={this.state.formDet.userName}
+                        id="userName"
+                      />
+                    </>
+                  )
+                ) : (
                   <>
                     <label
                       className="db fw6 lh-copy f6"
@@ -175,89 +262,100 @@ class Form extends React.Component {
                     <input
                       onChange={this.formChange}
                       className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                      type="email"
+                      type="text"
                       name="email"
-                      id="email-address"
                       value={this.state.formDet.email}
-                    />
-                    <p style={{ color: "red" }}>{this.state.formErr.email}</p>
-                    <label className="db fw6 lh-copy f6" htmlFor="userName">
-                      Username
-                    </label>
-                    <input
-                      onChange={this.formChange}
-                      className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                      type="text"
-                      name="userName"
-                      value={this.state.formDet.userName}
-                      id="userName"
-                    />
-                    <p style={{ color: "red" }}>
-                      {this.state.formErr.userName}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <label
-                      className="db fw6 lh-copy f6"
-                      htmlFor="email-address"
-                    >
-                      Email or Username
-                    </label>
-                    <input
-                      onChange={this.formChange}
-                      className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                      type="text"
-                      name="userName"
-                      value={this.state.formDet.userName}
                       id="userName"
                     />
                   </>
                 )}
               </div>
-              <div className="mv3">
-                <label className="db fw6 lh-copy f6" htmlFor="password">
-                  Password
-                </label>
+              {!this.state.forgotP ? (
+                <div className="mv3">
+                  <label className="db fw6 lh-copy f6" htmlFor="password">
+                    Password
+                  </label>
 
-                <input
-                  onChange={this.formChange}
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={this.state.formDet.password}
-                />
-                {this.state.register ? (
-                  <p style={{ color: "red" }}>{this.state.formErr.password}</p>
-                ) : null}
-              </div>
+                  <input
+                    onChange={this.formChange}
+                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                    type="password"
+                    name="password"
+                    id="password"
+                    value={this.state.formDet.password}
+                  />
+                  {this.state.register ? (
+                    <p style={{ color: "red" }}>
+                      {this.state.formErr.password}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
             </fieldset>
             <div className="">
-              {!this.state.register ? (
-                <input
-                  className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                  type="submit"
-                  onClick={this.submit}
-                  value="Sign in"
-                />
+              {!this.state.forgotP ? (
+                !this.state.register ? (
+                  <input
+                    className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                    type="submit"
+                    onClick={this.submit}
+                    value="Sign in"
+                  />
+                ) : (
+                  <input
+                    className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                    type="submit"
+                    onClick={this.submit}
+                    value="Sign up"
+                  />
+                )
               ) : (
                 <input
                   className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                   type="submit"
                   onClick={this.submit}
-                  value="Sign up"
+                  value="Submit"
                 />
               )}
             </div>
             <div className="lh-copy mt3">
-              {!this.state.register ? (
-                <>
+              {!this.state.forgotP ? (
+                !this.state.register ? (
+                  <>
+                    <span
+                      className="f6 link dim black db"
+                      onClick={() =>
+                        this.setState({
+                          register: true,
+                          formDet: { email: "", password: "", userName: "" },
+                          formErr: {
+                            email: "Empty field",
+                            userName: "Empty field",
+                            password: "Empty field",
+                          },
+                        })
+                      }
+                    >
+                      Sign up
+                    </span>
+                    <a
+                      href="#0"
+                      className="f6 link dim black db"
+                      onClick={() =>
+                        this.setState({
+                          forgotP: true,
+                        })
+                      }
+                    >
+                      Forgot your password?
+                    </a>
+                  </>
+                ) : (
                   <span
                     className="f6 link dim black db"
                     onClick={() =>
                       this.setState({
-                        register: true,
+                        register: false,
                         formDet: { email: "", password: "", userName: "" },
                         formErr: {
                           email: "Empty field",
@@ -267,18 +365,15 @@ class Form extends React.Component {
                       })
                     }
                   >
-                    Sign up
+                    Sign in
                   </span>
-                  <a href="#0" className="f6 link dim black db">
-                    Forgot your password?
-                  </a>
-                </>
+                )
               ) : (
                 <span
                   className="f6 link dim black db"
                   onClick={() =>
                     this.setState({
-                      register: false,
+                      forgotP: false,
                       formDet: { email: "", password: "", userName: "" },
                       formErr: {
                         email: "Empty field",
@@ -288,7 +383,7 @@ class Form extends React.Component {
                     })
                   }
                 >
-                  Sign in
+                  Go Back
                 </span>
               )}
             </div>

@@ -21,7 +21,6 @@ export default function AudioSong({
     (async function () {
       changeCurrentMusicTime(await audioRef.current.currentTime);
       maxDuration(await audioRef.current.duration);
-      console.log(audioRef.current.currentTime);
     })();
   }, [playing, changeCurrentMusicTime, maxDuration]);
 
