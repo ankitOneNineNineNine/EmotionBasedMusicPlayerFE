@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/EmotionBasedMusicPlayerFE/static/css/main.f1950caa.chunk.css",
+    "main.js": "/EmotionBasedMusicPlayerFE/static/js/main.0c8077cc.chunk.js",
+    "main.js.map": "/EmotionBasedMusicPlayerFE/static/js/main.0c8077cc.chunk.js.map",
+    "runtime-main.js": "/EmotionBasedMusicPlayerFE/static/js/runtime-main.a31ae18c.js",
+    "runtime-main.js.map": "/EmotionBasedMusicPlayerFE/static/js/runtime-main.a31ae18c.js.map",
+    "static/css/2.01f2b28a.chunk.css": "/EmotionBasedMusicPlayerFE/static/css/2.01f2b28a.chunk.css",
+    "static/js/2.f1b6fdc3.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/2.f1b6fdc3.chunk.js",
+    "static/js/2.f1b6fdc3.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/2.f1b6fdc3.chunk.js.map",
+    "static/js/3.8be7a4d7.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/3.8be7a4d7.chunk.js",
+    "static/js/3.8be7a4d7.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/3.8be7a4d7.chunk.js.map",
+    "static/js/4.51073f98.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/4.51073f98.chunk.js",
+    "static/js/4.51073f98.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/4.51073f98.chunk.js.map",
+    "static/js/5.43409d9a.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/5.43409d9a.chunk.js",
+    "static/js/5.43409d9a.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/5.43409d9a.chunk.js.map",
+    "static/js/6.5f8d3bef.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/6.5f8d3bef.chunk.js",
+    "static/js/6.5f8d3bef.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/6.5f8d3bef.chunk.js.map",
+    "static/js/7.77f208d9.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/7.77f208d9.chunk.js",
+    "static/js/7.77f208d9.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/7.77f208d9.chunk.js.map",
+    "static/js/8.bdcf9c12.chunk.js": "/EmotionBasedMusicPlayerFE/static/js/8.bdcf9c12.chunk.js",
+    "static/js/8.bdcf9c12.chunk.js.map": "/EmotionBasedMusicPlayerFE/static/js/8.bdcf9c12.chunk.js.map",
+    "index.html": "/EmotionBasedMusicPlayerFE/index.html",
+    "static/css/2.01f2b28a.chunk.css.map": "/EmotionBasedMusicPlayerFE/static/css/2.01f2b28a.chunk.css.map",
+    "static/css/main.f1950caa.chunk.css.map": "/EmotionBasedMusicPlayerFE/static/css/main.f1950caa.chunk.css.map",
+    "static/js/2.f1b6fdc3.chunk.js.LICENSE.txt": "/EmotionBasedMusicPlayerFE/static/js/2.f1b6fdc3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a31ae18c.js",
+    "static/css/2.01f2b28a.chunk.css",
+    "static/js/2.f1b6fdc3.chunk.js",
+    "static/css/main.f1950caa.chunk.css",
+    "static/js/main.0c8077cc.chunk.js"
+  ]
+}
