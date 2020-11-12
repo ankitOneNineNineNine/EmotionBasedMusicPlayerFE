@@ -14,7 +14,6 @@ const Profile = ({ user, dispProfile }) => {
     border: "1px solid black",
     fontWeight: "bold",
   };
-
   return (
     <>
       <span onClick={() => dispProfile(false)}>&times;</span>
@@ -33,15 +32,20 @@ const Profile = ({ user, dispProfile }) => {
         <div style={styleX}>
           <p>Username: {user.userName}</p>
         </div>
+
         {user.songs.length ? (
           <div style={styleX}>
+            <p style={{ fontWeight: "lighter" }}>Favorite Songs</p>
+            <hr />
             {user.songs.map((song, i) => {
-              <div key={i} style={{ display: "block" }}>
-                <p style={{ display: "inline" }}>{song.title}</p>
-                <p style={{ float: "right", displat: "inline" }}>
-                  {song.artist}
-                </p>
-              </div>;
+              return (
+                <div key={i} style={{ display: "block" }}>
+                  <p style={{ display: "inline" }}>{song.title}</p>
+                  <p style={{ float: "right", displat: "inline" }}>
+                    {song.artist}
+                  </p>
+                </div>
+              );
             })}
           </div>
         ) : null}

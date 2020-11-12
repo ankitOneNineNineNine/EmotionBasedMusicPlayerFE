@@ -12,7 +12,7 @@ export default function BottomIcons({
         <a href="#" onClick={() => handleBottomButtons("playlist")}>
           <i style={{ color: leftColor }} className="fa fa-list-ul"></i>
         </a>
-        <h1>{songName ? songName : null}</h1>
+        <h3>{songName ? songName : null}</h3>
         <a href="#" onClick={() => handleBottomButtons("listSelector")}>
           <i style={{ color: rightColor }} className="fas fa-ellipsis-v"></i>
         </a>
