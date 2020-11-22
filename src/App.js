@@ -71,11 +71,7 @@ function App({ setUser }) {
           <Form dispForm={dispForm} />
         </Modal>
       ) : null}
-      {profileDisp ? (
-        <Modal>
-          <Profile dispProfile={dispProfile} />
-        </Modal>
-      ) : null}
+      {profileDisp ? <Profile dispProfile={dispProfile} /> : null}
       <FormContext.Provider value={dispForm}>
         <Player
           allSongs={songs}

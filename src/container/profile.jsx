@@ -1,56 +1,138 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setUser } from "../reduxComponents/action";
-
+import axios from "axios";
+import { dispError, dispSuccess } from "../helpers/toaster";
 const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user)),
+  };
+};
 const Profile = ({ user, dispProfile }) => {
+  const imageUploader = useRef(null);
+
+  const [image, setImage] = useState(null);
   const styleX = {
     padding: "20px",
     borderRadius: "10px",
     border: "1px solid black",
     fontWeight: "bold",
   };
+  const updateUserImage = () => {
+    imageUploader.current.click();
+  };
+  const imageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+  const uploadImage = (_) => {
+    if (image) {
+      var formData = new FormData();
+      formData.append("img", image);
+      axios({
+        url: `http://localhost:8000/user/uploadProfileImage`,
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: JSON.parse(localStorage.getItem("$token$")),
+        },
+        data: formData,
+      })
+        .then((data) => {
+          dispSuccess("Successfully Updated");
+          setUser(data);
+          setImage(null);
+        })
+        .catch((err) => {
+          dispError(err);
+        });
+    }
+  };
+
+  const cancelProcess = (_) => {
+    setImage(null);
+  };
+  let img = image
+    ? URL.createObjectURL(image)
+    : `http://localhost:8000/profile/${user.image}`;
   return (
     <>
-      <span onClick={() => dispProfile(false)}>&times;</span>
-      <div
-        style={{
-          color: "black",
-          width: "401px",
-          displat: "block",
-          margin: "auto",
-          marginTop: "10px",
-        }}
-      >
-        <div style={styleX}>
-          <p>Email: {user.email}</p>
-        </div>
-        <div style={styleX}>
-          <p>Username: {user.userName}</p>
+      <div className="card-container" style={{ zIndex: "100" }}>
+        <span onClick={() => dispProfile(false)}>&times;</span>
+
+        <div className="upper-container">
+          <div className="image-container">
+            <img src={img} />:
+          </div>
+          <a
+            onClick={() => {
+              localStorage.clear();
+              setUser(null);
+            }}
+            href=""
+            className="f6 pointer link dim ph3 pv2 mb2 dib white bg-dark-gray"
+          >
+            Sign Out
+          </a>
+          <div style={{ float: "right", padding: "20px", marginRight: "80px" }}>
+            <h3>{user.userName}</h3>
+            <h4>{user.email}</h4>
+          </div>
+          {image ? (
+            <>
+              <i
+                className="fa fa-upload"
+                style={{ position: "relative", left: "40%", top: "35%" }}
+                onClick={uploadImage}
+              />
+              <i
+                className="fa fa-backspace"
+                style={{ position: "relative", left: "45%", top: "35%" }}
+                onClick={cancelProcess}
+              />
+            </>
+          ) : (
+            <i
+              className="fa fa-camera"
+              style={{ position: "relative", left: "30%", top: "0%" }}
+              onClick={updateUserImage}
+            />
+          )}
+          <input
+            type="file"
+            onChange={imageChange}
+            style={{ display: "none" }}
+            ref={imageUploader}
+          />
         </div>
 
-        {user.songs.length ? (
-          <div style={styleX}>
-            <p style={{ fontWeight: "lighter" }}>Favorite Songs</p>
-            <hr />
-            {user.songs.map((song, i) => {
-              return (
-                <div key={i} style={{ display: "block" }}>
-                  <p style={{ display: "inline" }}>{song.title}</p>
-                  <p style={{ float: "right", displat: "inline" }}>
-                    {song.artist}
-                  </p>
-                </div>
-              );
-            })}
+        <div className="lower-container">
+          <div>
+            <p>Favorite Musics</p>
           </div>
-        ) : null}
+          <div className="box">
+            <ul>
+              {user.songs.length > 0 ? (
+                user.songs.map((song, i) => {
+                  return (
+                    <li key={song._id}>
+                      <span>{song.emotion}</span>
+                      {song.title}
+                    </li>
+                  );
+                })
+              ) : (
+                <li>None</li>
+              )}
+            </ul>
+          </div>
+        </div>
       </div>
     </>
   );
 };
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
