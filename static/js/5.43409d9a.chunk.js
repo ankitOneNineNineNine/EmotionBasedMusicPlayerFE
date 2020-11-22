@@ -1,2 +1,0 @@
-(this.webpackJsonpfemusic=this.webpackJsonpfemusic||[]).push([[5],{605:function(t,e,i){"use strict";i.r(e),i.d(e,"default",(function(){return c}));var s=i(21);i(19);function c(t){var e=t.img,i=t.title,c=(t.currentTime,t.artist);t.max;return Object(s.jsxs)("div",{id:"toggleThem",children:[Object(s.jsx)("div",{className:"img",children:Object(s.jsx)("img",{src:e,alt:""})}),Object(s.jsxs)("div",{className:"text",children:[Object(s.jsx)("h1",{id:"title",children:i}),Object(s.jsx)("h3",{id:"artist",children:c})]})]})}}}]);
-//# sourceMappingURL=5.43409d9a.chunk.js.map
