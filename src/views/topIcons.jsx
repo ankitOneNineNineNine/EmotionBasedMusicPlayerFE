@@ -12,26 +12,34 @@ function TopIcons({ topIconHandler, color, user, dispProfile }) {
 
   return (
     <div className="top-icons">
-      <a href="#">
-        <i
-          onClick={() => topIconHandler("wishlist")}
-          className="fa fa-heart"
-          style={{ color: color }}
-        ></i>
-      </a>
+      {user.email ? (
+        <a href="#">
+          <i
+            onClick={() => topIconHandler("emotionFinder")}
+            className="fas fa-grin-alt"
+            title="Emotion Recognizer"
+          ></i>
+        </a>
+      ) : null}
       {user.userName ? (
-        <button className="loginBtn" onClick={() => dispProfile(true)}>
+        <button
+          className="loginBtn"
+          onClick={() => dispProfile(true)}
+          title="Click: User Profile"
+        >
           {user.userName}
         </button>
       ) : (
         <button className="loginBtn" onClick={() => formCtx(true)}>
-          Login
+          Sign In
         </button>
       )}
       <a href="#">
         <i
-          onClick={() => topIconHandler("emotionFinder")}
-          className="fas fa-grin-alt"
+          onClick={() => topIconHandler("wishlist")}
+          className="fa fa-heart"
+          title="Favorites"
+          style={{ color: color }}
         ></i>
       </a>
     </div>

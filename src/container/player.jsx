@@ -8,17 +8,33 @@ import ListSelect from "../views/listSelect";
 
 import shuffle from "../helpers/shuffleArr";
 import EmotionCam from "./emotionCam";
+import { setUser } from "../reduxComponents/action";
+import { connect } from "react-redux";
+import axios from "axios";
 const PlayerButton = lazy(() => import("../views/playerButtons.jsx"));
 const BottomIcons = lazy(() => import("../views/bottomIcons"));
 const SongDesc = lazy(() => import("../views/songDesc"));
 const SongLists = lazy(() => import("../views/songLists"));
 const TopIcons = lazy(() => import("../views/topIcons"));
 
-export default function Player({
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user)),
+  };
+};
+
+function Player({
   allSongs,
   playlistFromEmotion,
   findEmotion,
   dispProfile,
+  user,
+  setUser,
 }) {
   const [playlistToggle, setplaylistToggle] = useState(false);
   const [listSelectToggle, setListSelectToggle] = useState(false);
@@ -73,7 +89,14 @@ export default function Player({
         audioRef.current.pause();
       }
     })();
-  }, [currentSong, playing, retweeted, playlistDisplay, playlistFromEmotion]);
+  }, [
+    user,
+    currentSong,
+    playing,
+    retweeted,
+    playlistDisplay,
+    playlistFromEmotion,
+  ]);
 
   const changeCurrentMusicTime = (value) => {
     if (value !== audioRef.current.currentTime) {
@@ -87,7 +110,30 @@ export default function Player({
     setPlaying(true);
   };
   const topIconHandler = (arg) => {
+    let action;
     if (arg === "wishlist") {
+      if (user.songs) {
+        if (user.songs.findIndex((e) => e.title === currentSong.title) > -1) {
+          action = "remove";
+        } else {
+          action = "add";
+        }
+
+        axios({
+          url: `http://localhost:8000/user/${user._id}`,
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: JSON.parse(localStorage.getItem("$token$")),
+          },
+          data: {
+            action,
+            song: currentSong,
+          },
+        })
+          .then((data) => setUser(data.data))
+          .catch(console.log);
+      }
       setWishlisted((wishlisted) => !wishlisted);
     } else if (arg === "emotionFinder") {
       findEmotion(true);
@@ -114,6 +160,7 @@ export default function Player({
       setPlaylist((playlist) => shuffle(playlist));
     }
   };
+
   const handleBottomButtons = (arg) => {
     if (arg === "playlist") {
       setplaylistToggle((playlistToggle) => !playlistToggle);
@@ -145,7 +192,16 @@ export default function Player({
             <TopIcons
               topIconHandler={topIconHandler}
               dispProfile={dispProfile}
-              color={wishlisted ? "red" : "black"}
+              color={
+                user.songs
+                  ? user.songs.findIndex((e) => e.title === currentSong.title) >
+                    -1
+                    ? "red"
+                    : "black"
+                  : wishlisted
+                  ? "red"
+                  : "black"
+              }
             />
 
             {playlistToggle ? (
@@ -194,3 +250,4 @@ export default function Player({
     </div>
   );
 }
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

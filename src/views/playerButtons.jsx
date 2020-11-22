@@ -25,7 +25,7 @@ export default function PlayerButton({
 
       <div className="btns">
         <a href="#" onClick={() => playerButtonHandler("retweet")}>
-          <i id="retweet" className="fa fa-retweet"></i>
+          <i id="retweet" className="fa fa-retweet" title="Retweet"></i>
         </a>
         <a href="#" onClick={() => playerButtonHandler("previous")}>
           <i className="fa fa-backward" id="prev" title="Previous"></i>
@@ -41,7 +41,7 @@ export default function PlayerButton({
           <i className="fa fa-forward" id="next" title="Next"></i>
         </a>
         <a href="#" onClick={() => playerButtonHandler("random")}>
-          <i id="random" className="fa fa-random"></i>
+          <i id="random" className="fa fa-random" title="Shuffle"></i>
         </a>
       </div>
     </>
