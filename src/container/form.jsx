@@ -3,6 +3,7 @@ import { dispError, dispSuccess } from "../helpers/toaster";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setUser } from "../reduxComponents/action";
+import { port } from "../config";
 const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (user) => dispatch(setUser(user)),
@@ -32,7 +33,7 @@ class Form extends React.Component {
 
   componentDidMount() {
     axios({
-      url: `http://localhost:8000/auth/checkDuplicate`,
+      url: `${port}/auth/checkDuplicate`,
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -129,7 +130,7 @@ class Form extends React.Component {
       };
       if (this.state.takenEmail.indexOf(data.email) > -1) {
         axios({
-          url: `http://localhost:8000/auth/forgot-password`,
+          url: `${port}/auth/forgot-password`,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -159,9 +160,9 @@ class Form extends React.Component {
       }
       let url;
       if (this.state.register && !this.state.forgotP) {
-        url = `http://localhost:8000/auth/register`;
+        url = `${port}/auth/register`;
       } else {
-        url = `http://localhost:8000/auth/login`;
+        url = `${port}/auth/login`;
       }
       if (submit) {
         axios({

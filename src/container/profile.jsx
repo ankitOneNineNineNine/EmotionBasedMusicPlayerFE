@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { setUser } from "../reduxComponents/action";
 import axios from "axios";
 import { dispError, dispSuccess } from "../helpers/toaster";
+import { port } from "../config";
 const mapStateToProps = (state) => {
   return {
     user: state.user,
@@ -34,7 +35,7 @@ const Profile = ({ user, dispProfile }) => {
       var formData = new FormData();
       formData.append("img", image);
       axios({
-        url: `http://localhost:8000/user/uploadProfileImage`,
+        url: `${port}/user/uploadProfileImage`,
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -58,7 +59,7 @@ const Profile = ({ user, dispProfile }) => {
   };
   let img = image
     ? URL.createObjectURL(image)
-    : `http://localhost:8000/profile/${user.image}`;
+    : `${port}/profile/${user.image}`;
   return (
     <>
       <div className="card-container" style={{ zIndex: "100" }}>

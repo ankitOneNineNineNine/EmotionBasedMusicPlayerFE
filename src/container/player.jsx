@@ -11,6 +11,7 @@ import EmotionCam from "./emotionCam";
 import { setUser } from "../reduxComponents/action";
 import { connect } from "react-redux";
 import axios from "axios";
+import { port } from "../config";
 const PlayerButton = lazy(() => import("../views/playerButtons.jsx"));
 const BottomIcons = lazy(() => import("../views/bottomIcons"));
 const SongDesc = lazy(() => import("../views/songDesc"));
@@ -120,7 +121,7 @@ function Player({
         }
 
         axios({
-          url: `http://localhost:8000/user/${user._id}`,
+          url: `${port}/user/${user._id}`,
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

@@ -13,6 +13,8 @@ import axios from "axios";
 import { setUser } from "./reduxComponents/action";
 import { dispError } from "./helpers/toaster";
 import { connect } from "react-redux";
+import {port} from './config'
+
 export const FormContext = React.createContext();
 
 const mapDispatchToProps = (dispatch) => {
@@ -27,23 +29,25 @@ function App({ setUser }) {
   const [formDisplay, setFormDisplay] = useState(false);
   const [profileDisp, setProfileDisp] = useState(false);
   useEffect(() => {
-    axios({
-      url: "http://localhost:8000/user/loginWithJWT",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: JSON.parse(localStorage.getItem("$token$")),
-      },
-      data: {},
-    })
-      .then((data) => {
-        console.log(data.data);
-        setUser(data.data);
+    if(JSON.parse(localStorage.getItem("$token$"))){
+      axios({
+        url: `${port}/user/loginWithJWT`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("$token$")),
+        },
+        data: {},
       })
-      .catch((err) => {
-        localStorage.clear();
-      });
-  }, []);
+        .then((data) => {
+          console.log(data.data);
+          setUser(data.data);
+        })
+        .catch((err) => {
+          localStorage.clear();
+        });
+    }
+  }, [JSON.parse(localStorage.getItem("$token$"))]);
   const dispForm = (val) => {
     setFormDisplay(val);
   };

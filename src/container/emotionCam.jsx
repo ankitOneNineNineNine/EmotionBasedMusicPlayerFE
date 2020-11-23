@@ -3,6 +3,7 @@ import ImageDisplay from "../views/imageDisplay";
 import axios from "axios";
 import { dispError, dispSuccess } from "../helpers/toaster";
 import * as tf from "@tensorflow/tfjs";
+import { port } from "../config";
 
 const EmotionCam = ({ setEmPl, findEmotion }) => {
   const fileRef = useRef(null);
@@ -29,7 +30,7 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
     e.preventDefault();
     if (cam) {
       axios({
-        url: `http://localhost:8000/emotion`,
+        url: `${port}/emotion`,
         method: "POST",
         data: {
           uri: camImgUri,
@@ -37,9 +38,7 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
       })
         .then(async (data) => {
           let obj = data.data;
-          var model = await tf.loadLayersModel(
-            "http://localhost:8000/models/model.json"
-          );
+          var model = await tf.loadLayersModel(`${port}/models/model.json`);
           var canvImg = new Image();
           canvImg.src = camImgUri;
           const cnvs = document.createElement("canvas");
@@ -89,7 +88,7 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
       var formData = new FormData();
       formData.append("img", file);
       axios({
-        url: `http://localhost:8000/emotion`,
+        url: `${port}/emotion`,
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -98,9 +97,7 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
       })
         .then(async (data) => {
           let obj = data.data;
-          var model = await tf.loadLayersModel(
-            "http://localhost:8000/models/model.json"
-          );
+          var model = await tf.loadLayersModel(`${port}/models/model.json`);
           var canvImg = new Image();
           canvImg.src = url;
           const cnvs = document.createElement("canvas");
