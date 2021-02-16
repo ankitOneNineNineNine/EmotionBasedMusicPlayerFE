@@ -170,11 +170,9 @@ function Player({
     }
   };
   const listSelected = (emotion) => {
-    if (emotion) {
-      setplaylistToggle(true);
-      setPlaylistDisplay(emotion);
-      setListSelectToggle(false);
-    }
+    setplaylistToggle(true);
+    setPlaylistDisplay(emotion);
+    setListSelectToggle(false);
   };
   let arr = [];
   allSongs.forEach((song) => {
@@ -232,7 +230,9 @@ function Player({
             />
 
             <BottomIcons
-              songName={playlistToggle ? currentSong.title : null}
+              songName={
+                playlistToggle && currentSong ? currentSong.title : null
+              }
               rightColor={listSelectToggle ? "blue" : "black"}
               leftColor={playlistToggle ? "blue" : "black"}
               handleBottomButtons={handleBottomButtons}

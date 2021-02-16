@@ -34,14 +34,16 @@ function TopIcons({ topIconHandler, color, user, dispProfile }) {
           Sign In
         </button>
       )}
-      <a href="#">
-        <i
-          onClick={() => topIconHandler("wishlist")}
-          className="fa fa-heart"
-          title="Favorites"
-          style={{ color: color }}
-        ></i>
-      </a>
+      {user.email ? (
+        <a href="#">
+          <i
+            onClick={() => topIconHandler("wishlist")}
+            className="fa fa-heart"
+            title="Favorites"
+            style={{ color: color }}
+          ></i>
+        </a>
+      ) : null}
     </div>
   );
 }

@@ -4,6 +4,7 @@ export default function ListSelect({ shown, lists, listSelected, nowPlaying }) {
   let stylex = shown
     ? { zIndex: "1", display: "block" }
     : { zIndex: "-1", display: "none" };
+
   let content = lists
     ? lists.map((list, i) => {
         return (

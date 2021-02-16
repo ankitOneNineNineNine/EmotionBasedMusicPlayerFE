@@ -32,26 +32,28 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    axios({
-      url: `${port}/auth/checkDuplicate`,
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: {},
-    }).then((data) => {
-      var takenEmail = [];
-      var takenUserName = [];
-      data.data.forEach((record) => {
-        takenEmail.push(record.email);
-        takenUserName.push(record.userName);
-      });
+    if (this.state.register) {
+      axios({
+        url: `${port}/auth/checkDuplicate`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: {},
+      }).then((data) => {
+        var takenEmail = [];
+        var takenUserName = [];
+        data.data.forEach((record) => {
+          takenEmail.push(record.email);
+          takenUserName.push(record.userName);
+        });
 
-      this.setState({
-        takenEmail,
-        takenUserName,
+        this.setState({
+          takenEmail,
+          takenUserName,
+        });
       });
-    });
+    }
   }
 
   formChange = (e) => {
@@ -188,9 +190,18 @@ class Form extends React.Component {
   };
   render() {
     return (
-      <div>
-        <span onClick={() => this.props.dispForm(false)}>&times;</span>
-        <main className="pa4 black-80">
+      <div
+        style={{
+          width: "100%",
+          margin: "auto",
+          height: "640px",
+          marginTop: "20px",
+        }}
+      >
+        <span className="cross" onClick={() => this.props.dispForm(false)}>
+          &times;
+        </span>
+        <main className="pa4 black-80 ">
           <form className="measure center">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f4 fw6 ph0 mh0">
@@ -339,7 +350,7 @@ class Form extends React.Component {
                     >
                       Sign up
                     </span>
-                    <a
+                    {/* <a
                       href="#0"
                       className="f6 link dim black db"
                       onClick={() =>
@@ -349,7 +360,7 @@ class Form extends React.Component {
                       }
                     >
                       Forgot your password?
-                    </a>
+                    </a> */}
                   </>
                 ) : (
                   <span

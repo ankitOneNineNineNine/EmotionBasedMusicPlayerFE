@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setUser } from "../reduxComponents/action";
 import axios from "axios";
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 const Profile = ({ user, dispProfile }) => {
   const imageUploader = useRef(null);
-
+  const [cImage, setCImage] = useState(null);
   const [image, setImage] = useState(null);
   const styleX = {
     padding: "20px",
@@ -27,10 +27,17 @@ const Profile = ({ user, dispProfile }) => {
   const updateUserImage = () => {
     imageUploader.current.click();
   };
+  useEffect(() => {
+    let img = image
+      ? URL.createObjectURL(image)
+      : `${port}/profile/${user.image}`;
+
+    setCImage(img);
+  }, [image]);
   const imageChange = (e) => {
     setImage(e.target.files[0]);
   };
-  const uploadImage = (_) => {
+  const uploadImage = (e) => {
     if (image) {
       var formData = new FormData();
       formData.append("img", image);
@@ -45,7 +52,7 @@ const Profile = ({ user, dispProfile }) => {
       })
         .then((data) => {
           dispSuccess("Successfully Updated");
-          setUser(data);
+          setUser(data.data);
           setImage(null);
         })
         .catch((err) => {
@@ -57,17 +64,17 @@ const Profile = ({ user, dispProfile }) => {
   const cancelProcess = (_) => {
     setImage(null);
   };
-  let img = image
-    ? URL.createObjectURL(image)
-    : `${port}/profile/${user.image}`;
+
   return (
     <>
       <div className="card-container" style={{ zIndex: "100" }}>
-        <span onClick={() => dispProfile(false)}>&times;</span>
+        <span className="cross" onClick={() => dispProfile(false)}>
+          &times;
+        </span>
 
         <div className="upper-container">
           <div className="image-container">
-            <img src={img} />:
+            <img src={cImage} />:
           </div>
           <a
             onClick={() => {

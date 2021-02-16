@@ -189,7 +189,9 @@ const EmotionCam = ({ setEmPl, findEmotion }) => {
   }
   return (
     <>
-      <span onClick={() => findEmotion(false)}>&times;</span>
+      <span onClick={() => findEmotion(false)} className="cross">
+        &times;
+      </span>
       {imageSelect ? (
         <ImageDisplay
           cam={cam}
